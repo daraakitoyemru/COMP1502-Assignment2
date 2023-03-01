@@ -8,6 +8,7 @@ public abstract class Toy {
 	private String price;
 	private String availibility;
 	private String ageRating;
+	private String category;
 	
 	public Toy(String serialNumber, String name, String brand, String price, String availibility, String ageRating) {
 		this.serialNumber = serialNumber;
@@ -67,6 +68,9 @@ public abstract class Toy {
 		this.brand = brand;
 	}
 	
+	public String toString() {
+		return "Serial Number: " + serialNumber + ", Name: " + name + ", Brand: " + brand + ", Price: " + price + ", Inventory: " +  availibility + ", Age Rating: " + ageRating; 
+	}
 	
 
 }

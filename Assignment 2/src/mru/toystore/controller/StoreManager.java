@@ -125,7 +125,7 @@ public class StoreManager {
 					}
 					//Come back later
 					for (Toy t : toys) {
-						System.out.println(((Figure) t).getClassification());
+						System.out.println(((Figure) t).toString());
 					}
 				}
 				fileReader.close();

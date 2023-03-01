@@ -14,8 +14,19 @@ public class Figure extends Toy {
 		
 	}
 
+	/**
+	 * Sets classification type for figure
+	 * */
 	public void setClassification(String classification) {
 		this.classification = classification;
 	}
+	
+	/**
+	 * Formats information for readability
+	 * */
+	public String toString() {
+		return "Category: Figure, " + super.toString();
+	}
+	
 
 }
