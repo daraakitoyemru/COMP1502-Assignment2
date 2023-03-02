@@ -75,18 +75,18 @@ public class StoreMenu {
 	 * Prompts user for toy serial number
 	 * @return returns users input as integer number
 	 * */
-	public int promptSerialNum() {
+	public String promptSerialNum() {
 		//add exception handling
 		System.out.print("\nEnter serial number: ");
-		int serialNum = input.nextInt();
-		input.nextLine();
+		String serialNum = input.nextLine();
+		
 		
 		return serialNum;
 	}
 	
 	public String promptToyName() {
 		System.out.print("\nEnter toy name: ");
-		String toyName = input.nextLine();
+		String toyName = input.nextLine().trim();
 		
 		return toyName;
 
@@ -100,4 +100,10 @@ public class StoreMenu {
 
 	}
 		
+	public char promptAreYouSure() {
+		System.out.print("\nAre you sure you want to purchase? (Y/N) ");
+		char option = input.nextLine().toLowerCase().charAt(0);
+		
+		return option;
+	}
 }

@@ -6,11 +6,11 @@ public abstract class Toy {
 	private String name;
 	private String brand;
 	private String price;
-	private String availibility;
+	private int availibility;
 	private String ageRating;
 	private String category;
 	
-	public Toy(String serialNumber, String name, String brand, String price, String availibility, String ageRating) {
+	public Toy(String serialNumber, String name, String brand, String price, int availibility, String ageRating) {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.brand = brand;
@@ -44,11 +44,11 @@ public abstract class Toy {
 		this.price = price;
 	}
 
-	public String getAvailibility() {
+	public int getAvailibility() {
 		return availibility;
 	}
 
-	public void setAvailibility(String availibility) {
+	public void setAvailibility(int availibility) {
 		this.availibility = availibility;
 	}
 
@@ -69,7 +69,7 @@ public abstract class Toy {
 	}
 	
 	public String toString() {
-		return "Serial Number: " + serialNumber + ", Name: " + name + ", Brand: " + brand + ", Price: " + price + ", Inventory: " +  availibility + ", Age Rating: " + ageRating; 
+		return "Serial Number: " + serialNumber + ", Name: " + name + ", Brand: " + brand + ", Price: " + price + ", Inventory: " +  availibility + ", Age Rating: " + ageRating ; 
 	}
 	
 

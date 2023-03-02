@@ -1,11 +1,11 @@
 package mru.toystore.model;
 
-public class Animals extends Toy {
+public class Animal extends Toy {
 	
 	private String material;
 	private String size;
 
-	public Animals(String serialNumber, String name, String brand, String price, String availibility,
+	public Animal(String serialNumber, String name, String brand, String price, int availibility,
 			String ageRating, String material, String size) {
 		super(serialNumber, name, brand, price, availibility, ageRating);
 		// TODO Auto-generated constructor stub
@@ -31,7 +31,7 @@ public class Animals extends Toy {
 	}
 
 	public String toString() {
-		return "Category: Animal, " + super.toString();
+		return "Category: Animal, " + super.toString() + ", Materials: " + material + ", Size: " + size;
 	}
 	
 }
