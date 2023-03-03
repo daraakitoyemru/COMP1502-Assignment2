@@ -3,12 +3,14 @@ package mru.toystore.model;
 public class Puzzle extends Toy{
 	
 	private String puzzleType;
+	
 
 	public Puzzle(String serialNumber, String name, String brand, String price, int availibility,
 			String ageRating, String puzzleType) {
 		super(serialNumber, name, brand, price, availibility, ageRating);
 		// TODO Auto-generated constructor stub
 		this.puzzleType = puzzleType;
+		super.setCategory("Puzzle");
 	}
 
 	public String getPuzzleType() {
@@ -20,7 +22,7 @@ public class Puzzle extends Toy{
 	}
 	
 	public String toString() {
-		return "Category: Puzzle, " + super.toString() + " Puzzle-type: " + puzzleType;
+		return "Category: " + this.getCategory() + super.toString() + " Puzzle-type: " + puzzleType;
 	}
 
 }

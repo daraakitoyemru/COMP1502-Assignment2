@@ -4,10 +4,16 @@ public class Figure extends Toy {
 
 	
 	private String classification;
+	private String category;
+	
 
 	public Figure(String serialNumber, String name, String brand, String price, int availibility, String ageRating, String classification) {
 		super(serialNumber, name, brand, price, availibility, ageRating);
 		this.classification = classification;
+		
+		super.setCategory("Figure");
+		
+		
 	}
 	public String getClassification() {
 		return classification;
@@ -25,7 +31,7 @@ public class Figure extends Toy {
 	 * Formats information for readability
 	 * */
 	public String toString() {
-		return "Category: Figure, " + super.toString() + ", Classification: " + classification;
+		return "Category: " + this.getCategory() + super.toString() + ", Classification: " + classification;
 	}
 	
 

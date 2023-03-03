@@ -84,14 +84,16 @@ public class StoreMenu {
 		return serialNum;
 	}
 	
+	//add javadoc
 	public String promptToyName() {
 		System.out.print("\nEnter toy name: ");
-		String toyName = input.nextLine().trim();
+		String toyName = input.nextLine().toLowerCase().trim();
 		
 		return toyName;
 
 	}
 	
+	//add javadoc
 	public String promptCategoryName() {
 		System.out.print("\nEnter toy type: ");
 		String toyType = input.nextLine();
@@ -99,11 +101,49 @@ public class StoreMenu {
 		return toyType;
 
 	}
+	
+	public int promptPurchaseOption() {
+		System.out.print("\nEnter the number of the toy you'd like to buy: ");
+		int option = input.nextInt();
+		input.nextLine();
 		
+		return option;
+	}
+	
+	//add javadoc
 	public char promptAreYouSure() {
 		System.out.print("\nAre you sure you want to purchase? (Y/N) ");
 		char option = input.nextLine().toLowerCase().charAt(0);
+		boolean flag = true;
+		
+		while (flag) {
+			if (option != 'y' && option != 'n') {
+				showErrMsg();
+				System.out.print("\nAre you sure you want to purchase? (Y/N) ");
+				option = input.nextLine().toLowerCase().charAt(0);
+			} else {
+				flag = false;
+			}
+		}
 		
 		return option;
+	}
+	
+	//add javadoc
+	public void promptContinue() {
+		System.out.print("\nPress Enter to continue: ");
+		String keyboard = input.nextLine();
+		
+		boolean flag = true;
+		
+		while (flag) {
+			if (keyboard.equals("")) {
+				flag = false;
+			} else {
+				System.out.print("\nPress Enter to continue: ");
+				keyboard = input.nextLine();
+			}
+		}
+		
 	}
 }

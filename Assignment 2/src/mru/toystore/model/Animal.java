@@ -12,6 +12,7 @@ public class Animal extends Toy {
 		
 		this.material = material;
 		this.size = size;
+		super.setCategory("Animal");
 	}
 
 	public void setMaterial(String material) {
@@ -31,7 +32,7 @@ public class Animal extends Toy {
 	}
 
 	public String toString() {
-		return "Category: Animal, " + super.toString() + ", Materials: " + material + ", Size: " + size;
+		return "Category: "+ this.getCategory() + super.toString() + ", Materials: " + material + ", Size: " + size;
 	}
 	
 }

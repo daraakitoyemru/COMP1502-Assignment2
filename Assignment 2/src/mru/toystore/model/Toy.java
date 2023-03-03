@@ -17,7 +17,6 @@ public abstract class Toy {
 		this.price = price;
 		this.availibility = availibility;
 		this.ageRating = ageRating;
-		
 	}
 
 	public String getSerialNumber() {
@@ -69,7 +68,15 @@ public abstract class Toy {
 	}
 	
 	public String toString() {
-		return "Serial Number: " + serialNumber + ", Name: " + name + ", Brand: " + brand + ", Price: " + price + ", Inventory: " +  availibility + ", Age Rating: " + ageRating ; 
+		return ", Serial Number: " + serialNumber + ", Name: " + name + ", Brand: " + brand + ", Price: " + price + ", Inventory: " +  availibility + ", Age Rating: " + ageRating ; 
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 

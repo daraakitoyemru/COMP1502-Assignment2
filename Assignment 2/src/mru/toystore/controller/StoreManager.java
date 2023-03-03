@@ -3,6 +3,8 @@ package mru.toystore.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 import mru.toystore.model.Animal;
@@ -27,6 +29,7 @@ public class StoreManager {
 		menu.showWelcomeBanner();
 		loadData();
 		launchApp();
+		
 	}
 	
 	
@@ -83,30 +86,74 @@ public class StoreManager {
 				
 				switch (option) {
 				case "1":
-					System.out.println("Seriul number plsss");
 					searchBySerialNum();
 					//flag = false;
 					break;
 				case "2":
 					System.out.println("toy name plss");
-			
-					flag = false;
+					searchByName();
+					//flag = false;
 					break;
 				case "3":
 					System.out.println("toy type pleesse");
-					flag = false;
+					searchByCategory();
+					//flag = false;
 					break;
 				case "4":
-					//System.out.println("Byeeee");
 					launchApp();
 					flag = false;
 					break;
 				default:
-					menu.showErrMsg();
-					
+					menu.showErrMsg();	
 					continue;
 				}
 		}
+	}
+	
+	//add doc
+	private void searchByCategory() {
+		String toyType = menu.promptCategoryName();
+		
+		ArrayList<Toy> matches = findByCategory(toyType);
+		
+		if (matches.size() != 0) {
+			formatToy(matches);
+			int option = menu.promptPurchaseOption();
+			System.out.println("\nSelected toy: " + matches.get(option));
+			purchaseToy(matches.get(option));
+		}
+		else {
+			System.out.println("not found");
+		}
+		
+	}
+	
+	//add javadoc
+	private void formatToy(ArrayList<Toy> toyList) {
+		for (int i = 1; i < toyList.size(); i++) {
+			System.out.println("("+i+")" + " " + toyList.get(i).toString());
+		}
+		
+	}
+	
+	
+	//add javadoc
+	private void searchByName() {
+		// TODO Auto-generated method stub
+		String name = menu.promptToyName();
+		ArrayList<Toy> matches = findByName(name);
+		
+		if (matches.size() != 0) {
+			formatToy(matches);
+			int option = menu.promptPurchaseOption();
+			System.out.println("\nSelected toy: " + matches.get(option));
+			purchaseToy(matches.get(option));
+		}
+		else {
+			System.out.println("not found");
+		}
+		
+		
 	}
 	
 	/**
@@ -119,16 +166,13 @@ public class StoreManager {
 		
 		Toy result = findBySn(sn);
 		
-
 			if (result != null) {
-				
 				System.out.println("\n"+result.toString());
-				purchaseBySn(result);
+				purchaseToy(result);
 				
 			} else {
 				System.out.println("not found");
 			}
-		
 	}
 	
 	/**
@@ -143,27 +187,60 @@ public class StoreManager {
 		}
 		return null;
 	}
+	
+	/**
+	 * Compares input with Toy names in text file
+	 * @param toyName accepts string
+	 * @return a list of toy objects that contain desired name
+	 * */
+	private ArrayList<Toy> findByName(String toyName) {
+		ArrayList<Toy> matches = new ArrayList<>();
+		
+		for (Toy toy : toys) {
+			if (toy.getName().toLowerCase().contains(toyName)) {
+				matches.add(toy);
+			}
+		}
+		
+		return matches;
+		
+	}
+	
+	/**
+	 * Compares input to Toy Category names
+	 * @param toyType accepts desired category
+	 * @return a list of toy objects with the matching category name
+	 * */
+	private ArrayList<Toy> findByCategory(String toyType) {
+		ArrayList<Toy> matches = new ArrayList<>();
+		
+		for (Toy toy : toys) {
+			if (toy.getCategory().equalsIgnoreCase(toyType)) {
+				matches.add(toy);
+			}
+		}
+		
+		return matches;
+		
+	}
 
 	/**
 	 * Prompts user if they want to purchase searched toy. If 'y' is entered, searched toy is removed from toys database
 	 *@param accepts a Toy object
 	 * */
-	private void purchaseBySn(Toy t) {
+	private void purchaseToy(Toy t) {
 		char option = menu.promptAreYouSure();
 		
-		
 		if (option == 'y') {
-			
-			purchaseToy(t);
+			updateInventory(t);
+			menu.promptContinue();
 		} else if (option == 'n') {
-			System.out.println("Add enter to continue thing");
-		} else {
-			menu.showErrMsg();
-		}
+			menu.promptContinue();
+		} 
 	}
 
 	//add javadoc comments
-	private int purchaseToy(Toy toy) {
+	private int updateInventory(Toy toy) {
 		int inventory = toy.getAvailibility();
 		if(inventory >= 1) {
 			System.out.println("Purchase sucessful!");
