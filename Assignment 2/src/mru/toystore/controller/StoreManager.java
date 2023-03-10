@@ -7,22 +7,29 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
+import mru.toystore.exceptions.InvalidFormatException;
 import mru.toystore.model.Animal;
+import mru.toystore.model.BoardGame;
 import mru.toystore.model.Figure;
 import mru.toystore.model.Puzzle;
 import mru.toystore.model.Toy;
+import mru.toystore.view.AddNewToyMenu;
 import mru.toystore.view.StoreMenu;
 
 public class StoreManager {
 
 	
 	private StoreMenu menu;
-	private ArrayList<Toy> toys;
+	private AddNewToy newToy;
+	private AddNewToyMenu newToyMenu;
+	public ArrayList<Toy> toys;
 	private FindToyInstance findToy;
 	private final String FILE_PATH  = "res/toys.txt";
 	
 	public StoreManager() {
 		menu = new StoreMenu();
+		newToy = new AddNewToy();
+		newToyMenu = new AddNewToyMenu();
 		toys = new ArrayList<>();
 		findToy = new FindToyInstance();
 		
@@ -35,8 +42,9 @@ public class StoreManager {
 	
 	/**
 	 * Launches the application
+	 * @throws InvalidFormatException 
 	 * */
-	private void launchApp() {
+	private void launchApp()  {
 		
 		boolean flag = true;
 		
@@ -50,8 +58,8 @@ public class StoreManager {
 					flag = false;
 					break;
 				case "2":
-					System.out.println("Adding a toy");
-					flag = false;
+					addNewToy();
+					//flag = false;
 					break;
 				case "3":
 					System.out.println("Removing a toy");
@@ -74,6 +82,57 @@ public class StoreManager {
 	
 
 
+	private void addNewToy() {
+		// TODO Auto-generated method stub
+		
+		boolean flag = true;
+		
+		while(flag) {
+			try {
+				
+				String sn = newToy.validateSn();
+				ArrayList<String> newToyData = newToy.toyData(sn);
+				if (checkSn(sn)) {
+					System.out.println("Exists");
+					continue;
+				}else if (sn.charAt(0) == '0' || sn.charAt(0) == '1') {
+					Figure figure = new Figure(sn, newToyData.get(0),newToyData.get(1), newToyData.get(2),Integer.parseInt(newToyData.get(3)),newToyData.get(4),newToyData.get(5));
+					toys.add(figure);
+					newToyMenu.showAddedToyMsg();
+					menu.promptContinue();
+					break;
+				} else if (sn.charAt(0) == '2' || sn.charAt(0) == '3') {
+					Animal animal = new Animal(sn,newToyData.get(0),newToyData.get(1), newToyData.get(2),Integer.parseInt(newToyData.get(3)),newToyData.get(4),newToyData.get(5), newToyData.get(6));
+					toys.add(animal);
+					newToyMenu.showAddedToyMsg();
+					menu.promptContinue();
+					break;
+				} else if (sn.charAt(0) == '4' || sn.charAt(0) == '5' || sn.charAt(0) == '6') {
+					Puzzle puzzle = new Puzzle(sn, newToyData.get(0),newToyData.get(1), newToyData.get(2),Integer.parseInt(newToyData.get(3)),newToyData.get(4),newToyData.get(5));
+					toys.add(puzzle);
+					newToyMenu.showAddedToyMsg();
+					menu.promptContinue();
+					break;
+				}
+				
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+		}
+		
+	}
+
+
+	private boolean checkSn(String sn) {
+		for (Toy toy : toys) {
+			if (sn.equals(toy.getSerialNumber())) {
+				return true;
+			} 
+		}
+		return false;
+	}
+	
 	/**
 	 * Launches menu for Search and Purchase option
 	 * */
@@ -116,22 +175,37 @@ public class StoreManager {
 		
 		ArrayList<Toy> matches = findByCategory(toyType);
 		
-		if (matches.size() != 0) {
-			formatToy(matches);
-			int option = menu.promptPurchaseOption();
-			System.out.println("\nSelected toy: " + matches.get(option));
-			purchaseToy(matches.get(option));
-		}
-		else {
-			System.out.println("not found");
+		boolean flag = true;
+		
+		while(flag) {
+
+			if (matches.size() != 0) {
+				formatToy(matches);
+				
+				String option = menu.promptPurchaseOption();
+				if (Integer.parseInt(option) <= matches.size() && Integer.parseInt(option) != 0) {
+					System.out.println("\nSelected toy: " + matches.get(Integer.parseInt(option) - 1));
+					purchaseToy(matches.get(Integer.parseInt(option) - 1));
+					flag = false;
+				} else {
+					System.out.println("\n********Please enter a number within range*********\n");
+					
+					continue;
+				}
+				
+			}
+			else {
+				System.out.println("not found");
+				flag = false;
+			}
 		}
 		
 	}
 	
 	//add javadoc
 	private void formatToy(ArrayList<Toy> toyList) {
-		for (int i = 1; i < toyList.size(); i++) {
-			System.out.println("("+i+")" + " " + toyList.get(i).toString());
+		for (int i = 0; i < toyList.size(); i++) {
+			System.out.println("("+(i + 1)+")" + " " + toyList.get(i).toString());
 		}
 		
 	}
@@ -143,24 +217,38 @@ public class StoreManager {
 		String name = menu.promptToyName();
 		ArrayList<Toy> matches = findByName(name);
 		
-		if (matches.size() != 0) {
-			formatToy(matches);
-			int option = menu.promptPurchaseOption();
-			System.out.println("\nSelected toy: " + matches.get(option));
-			purchaseToy(matches.get(option));
-		}
-		else {
-			System.out.println("not found");
-		}
+		boolean flag = true;
 		
+		while(flag) {
+
+			if (matches.size() != 0) {
+				formatToy(matches);	
+				String option = menu.promptPurchaseOption();
+				
+				if (Integer.parseInt(option) <= matches.size() && Integer.parseInt(option) != 0) {
+					System.out.println("\nSelected toy: " + matches.get(Integer.parseInt(option) - 1));
+					purchaseToy(matches.get(Integer.parseInt(option) - 1));
+					flag = false;
+				} else {
+					System.out.println("\n********Please enter a number within range*********\n");
+					
+					continue;
+				}
+			}
+			else {
+				System.out.println("not found");
+				flag = false;
+			}
+		}	
 		
 	}
+	
 	
 	/**
 	 * Checks for toy match and displays matched toy
 	 * */
 	private void searchBySerialNum() {
-		//test 1147205649
+		//test 
 		// TODO Auto-generated method stub
 		String sn = menu.promptSerialNum();
 		
@@ -197,7 +285,7 @@ public class StoreManager {
 		ArrayList<Toy> matches = new ArrayList<>();
 		
 		for (Toy toy : toys) {
-			if (toy.getName().toLowerCase().contains(toyName)) {
+			if (toy.getName().toLowerCase().contains(toyName.toLowerCase())) {
 				matches.add(toy);
 			}
 		}
@@ -251,6 +339,8 @@ public class StoreManager {
 		return inventory;
 	}
 	
+	
+	
 	private void loadData() {
 		File db = new File(FILE_PATH);
 		String currentLine;
@@ -277,7 +367,10 @@ public class StoreManager {
 						Puzzle puzzle = new Puzzle(splitLine[0], splitLine[1], splitLine[2], splitLine[3], Integer.parseInt(splitLine[4]), splitLine[5], splitLine[6]);
 						toys.add(puzzle);
 					}
-					//Add board game
+					else {
+						BoardGame boardGame = new BoardGame(splitLine[0], splitLine[1], splitLine[2], splitLine[3], Integer.parseInt(splitLine[4]), splitLine[5], splitLine[6], splitLine[7]);
+						toys.add(boardGame);
+					}
 				}
 				fileReader.close();
 			} catch (FileNotFoundException e) {

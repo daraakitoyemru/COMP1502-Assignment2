@@ -84,10 +84,16 @@ public class StoreMenu {
 		return serialNum;
 	}
 	
+	public String promptPrice() {
+		System.out.print("\nEnter desired price: ");
+		String price = input.nextLine();
+		return price;
+	}
+	
 	//add javadoc
 	public String promptToyName() {
 		System.out.print("\nEnter toy name: ");
-		String toyName = input.nextLine().toLowerCase().trim();
+		String toyName = input.nextLine().trim();
 		
 		return toyName;
 
@@ -102,10 +108,20 @@ public class StoreMenu {
 
 	}
 	
-	public int promptPurchaseOption() {
+	public String promptPurchaseOption() {
 		System.out.print("\nEnter the number of the toy you'd like to buy: ");
-		int option = input.nextInt();
-		input.nextLine();
+		String option = input.nextLine();
+		boolean flag = true;
+		
+		while(flag) {
+			if (!option.matches("[0-9]+")) {
+				showErrMsg();
+				System.out.print("\nEnter the number of the toy you'd like to buy: ");
+				option = input.nextLine();
+			} else {
+				flag = false;
+			}
+		}
 		
 		return option;
 	}
