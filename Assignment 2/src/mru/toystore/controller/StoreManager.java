@@ -41,8 +41,8 @@ public class StoreManager {
 	
 	
 	/**
-	 * Launches the application
-	 * @throws InvalidFormatException 
+	 * Launches the application and shows the main menu to user
+	 *  
 	 * */
 	private void launchApp()  {
 		
@@ -59,11 +59,9 @@ public class StoreManager {
 					break;
 				case "2":
 					addNewToy();
-					//flag = false;
 					break;
 				case "3":
-					System.out.println("Removing a toy");
-					flag = false;
+					removeToy();
 					break;
 				case "4":
 					System.out.println("savinggg...");
@@ -80,8 +78,52 @@ public class StoreManager {
 	}
 
 	
+	//add doc
+	private void removeToy() {
+		boolean flag = true;
+		
+		while(flag) {
+			try {
+				String sn = newToy.validateSn();
+				Toy toy = findBySn(sn);
+				
+				if(toy != null) {
+					System.out.println("\nItem found: \n");
+					System.out.println(toy.toString());
+					remove(toy);
+					flag = false;
+				} else {
+					System.out.println("\nToy not found");
+					menu.promptContinue();
+					break;	
+				}
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	
+	//add doc
+	private void remove(Toy toy) {
+		char option = menu.promptRemove();
+		
+		if (option == 'y') {
+			toys.remove(toy);
+			System.out.println("\nItem removed!");
+			menu.promptContinue();
+		} else if (option == 'n') {
+			menu.promptContinue();
+		}
+		
+	}
 
 
+	/**
+	 * First, prompts the user to enter a serial number, then checks to see if it is exists.
+	 * Then, gives the user a variety of prompts based on what serial number they enter.
+	 * */
 	private void addNewToy() {
 		// TODO Auto-generated method stub
 		
@@ -89,12 +131,14 @@ public class StoreManager {
 		
 		while(flag) {
 			try {
-				
+				//Checking sn to ensure it is in the right format
 				String sn = newToy.validateSn();
 				ArrayList<String> newToyData = newToy.toyData(sn);
+				//Making sure the sn does not exists before proceeding to avoid duplicate serial numbers
 				if (checkSn(sn)) {
-					System.out.println("Exists");
+					System.out.println("\n This toy already exists. Please try again");
 					continue;
+				//Creates a toy object based on first digit of serial number
 				}else if (sn.charAt(0) == '0' || sn.charAt(0) == '1') {
 					Figure figure = new Figure(sn, newToyData.get(0),newToyData.get(1), newToyData.get(2),Integer.parseInt(newToyData.get(3)),newToyData.get(4),newToyData.get(5));
 					toys.add(figure);
@@ -113,17 +157,27 @@ public class StoreManager {
 					newToyMenu.showAddedToyMsg();
 					menu.promptContinue();
 					break;
+				} else {
+					BoardGame boardGame = new BoardGame(sn, newToyData.get(0), newToyData.get(1), newToyData.get(2), Integer.parseInt(newToyData.get(3)), newToyData.get(4), newToyData.get(5), newToyData.get(6));
+					toys.add(boardGame);
+					newToyMenu.showAddedToyMsg();
+					menu.promptContinue();
+					break;
 				}
 				
 			} catch (InvalidFormatException e) {
-				// TODO Auto-generated catch block
+				//Displays error message if serial number is enterd correctly
 				System.out.println(e.getMessage());
 			}
 		}
 		
 	}
 
-
+	/**
+	 * Checks if a entered serial number exists in the database
+	 * @param sn is a serial number as a String
+	 * @return true is the serial number does exist, false if it doesn't
+	 * */
 	private boolean checkSn(String sn) {
 		for (Toy toy : toys) {
 			if (sn.equals(toy.getSerialNumber())) {
@@ -134,10 +188,10 @@ public class StoreManager {
 	}
 	
 	/**
-	 * Launches menu for Search and Purchase option
+	 * Launches menu for Search and Purchase option and allows navigation
 	 * */
 	private void Search() {
-		// TODO Auto-generated method stub
+		
 		boolean flag = true;
 		
 		while (flag) {
@@ -146,17 +200,12 @@ public class StoreManager {
 				switch (option) {
 				case "1":
 					searchBySerialNum();
-					//flag = false;
 					break;
 				case "2":
-					System.out.println("toy name plss");
 					searchByName();
-					//flag = false;
 					break;
 				case "3":
-					System.out.println("toy type pleesse");
 					searchByCategory();
-					//flag = false;
 					break;
 				case "4":
 					launchApp();
@@ -169,25 +218,31 @@ public class StoreManager {
 		}
 	}
 	
-	//add doc
+	/**
+	 * Asks users for toy type (Puzzle, Figure, Animal, Board Game) and returns a numbered list
+	 * of matching results. Users are then asked to purchase their selected option
+	 * */
 	private void searchByCategory() {
+		//Asks user for what kind of toy their looking for
 		String toyType = menu.promptCategoryName();
 		
+		//List containing matching toy objects
 		ArrayList<Toy> matches = findByCategory(toyType);
 		
 		boolean flag = true;
 		
 		while(flag) {
-
+			//Formats matches into a numbered list, then asks which toy they would want to buy
 			if (matches.size() != 0) {
 				formatToy(matches);
-				
 				String option = menu.promptPurchaseOption();
+				//displays selected option to user, asks if they want still want to buy or not
 				if (Integer.parseInt(option) <= matches.size() && Integer.parseInt(option) != 0) {
 					System.out.println("\nSelected toy: " + matches.get(Integer.parseInt(option) - 1));
 					purchaseToy(matches.get(Integer.parseInt(option) - 1));
 					flag = false;
 				} else {
+					//Shows error message if user enters a character that is not in the numbered list
 					System.out.println("\n********Please enter a number within range*********\n");
 					
 					continue;
@@ -195,14 +250,18 @@ public class StoreManager {
 				
 			}
 			else {
-				System.out.println("not found");
+				//Shows error message if entered toy type does not exist in database
+				System.out.println("\nnot found");
 				flag = false;
 			}
 		}
 		
 	}
 	
-	//add javadoc
+	/**
+	 * Formats list of toys into a numbered list and displays list to console
+	 * @param toyList as an ArrayList containing Toy objects
+	 * */
 	private void formatToy(ArrayList<Toy> toyList) {
 		for (int i = 0; i < toyList.size(); i++) {
 			System.out.println("("+(i + 1)+")" + " " + toyList.get(i).toString());
@@ -211,9 +270,12 @@ public class StoreManager {
 	}
 	
 	
-	//add javadoc
+	/**
+	 * Asks users for toy name and returns a numbered list
+	 * of matching results. Users are then asked to purchase their selected option
+	 * */
 	private void searchByName() {
-		// TODO Auto-generated method stub
+		//Asks user for toy name
 		String name = menu.promptToyName();
 		ArrayList<Toy> matches = findByName(name);
 		
@@ -264,6 +326,7 @@ public class StoreManager {
 	}
 	
 	/**
+	 * Looks for matching sn in database and returns that toy if found.
 	 * @param sn accepts serial number for toy
 	 * @return matching toy object if found or null if not found
 	 * */
@@ -327,7 +390,11 @@ public class StoreManager {
 		} 
 	}
 
-	//add javadoc comments
+	/**
+	 * Checks inventory of toy and decreases if inventory does not equal 0. 
+	 * Displays out of stock message if inventory is zero
+	 * @param toy is a single Toy object
+	 * */
 	private int updateInventory(Toy toy) {
 		int inventory = toy.getAvailibility();
 		if(inventory >= 1) {

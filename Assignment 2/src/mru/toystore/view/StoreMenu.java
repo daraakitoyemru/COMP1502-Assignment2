@@ -145,6 +145,24 @@ public class StoreMenu {
 		return option;
 	}
 	
+	public char promptRemove() {
+		System.out.print("\nAre you sure you want to remove this toy? (Y/N) ");
+		char option = input.nextLine().toLowerCase().charAt(0);
+		boolean flag = true;
+		
+		while (flag) {
+			if (option != 'y' && option != 'n') {
+				showErrMsg();
+				System.out.print("\nAre you sure you want to remove this toy? (Y/N) ");
+				option = input.nextLine().toLowerCase().charAt(0);
+			} else {
+				flag = false;
+			}
+		}
+		
+		return option;
+	}
+	
 	//add javadoc
 	public void promptContinue() {
 		System.out.print("\nPress Enter to continue: ");

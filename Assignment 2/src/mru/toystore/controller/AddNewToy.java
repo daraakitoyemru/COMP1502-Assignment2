@@ -3,7 +3,9 @@ package mru.toystore.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import mru.toystore.exceptions.GreaterMinPlayerException;
 import mru.toystore.exceptions.InvalidFormatException;
+import mru.toystore.exceptions.SmallerMaximumNumofPlayerException;
 import mru.toystore.model.Toy;
 import mru.toystore.view.AddNewToyMenu;
 import mru.toystore.view.StoreMenu;
@@ -12,13 +14,13 @@ public class AddNewToy {
 	
 	
 	private StoreMenu storeMenu;
-	private AddNewToyMenu newToy;
+	private AddNewToyMenu menu;
 	Scanner input;
 
 	public AddNewToy() {
 		
 		storeMenu = new StoreMenu();
-		newToy = new AddNewToyMenu();
+		menu = new AddNewToyMenu();
 		input = new Scanner(System.in);
 	
 		
@@ -37,9 +39,43 @@ public class AddNewToy {
 		}
 	}
 	
+	public ArrayList<String> validateNumOfPlayers() throws SmallerMaximumNumofPlayerException{
+		ArrayList<String> data = new ArrayList<>();
+		String minPlayers = menu.promptMinNumofPlayers();
+		String maxPlayers = menu.promptMaxNumofPlayers();
+		
 	
+		if (Integer.parseInt(maxPlayers) <= Integer.parseInt(minPlayers)) {
+			throw new SmallerMaximumNumofPlayerException();
+		}else {
+			data.add(minPlayers);
+			data.add(maxPlayers);
+		}
+		return data;
+	}
+	
+	public String formatPlayers() {
+		ArrayList<String> data = null;
+		boolean flag = true;
+		while(flag) {
+			try {
+				data = validateNumOfPlayers();
+				flag = false;
+			} catch (SmallerMaximumNumofPlayerException e) {
+				// TODO Auto-generated catch block
+				System.out.println("\n\t" + e.getMessage() + ". Please try again.");
+				continue;
+			}
+		}
+		
+		
+		return data.get(0)+"-"+data.get(1);
+				
+	}
+	
+	//need to change this method
 	public String validatePrice() {
-		String price = newToy.promptPrice();
+		String price = menu.promptPrice();
 		
 		if(!price.contains(".")) {
 			return price + ".00";
@@ -48,13 +84,15 @@ public class AddNewToy {
 	}
 
 	
+	
+	
 	public ArrayList<String> newToyData(){
 		ArrayList<String> data = new ArrayList<>();
 		String name = storeMenu.promptToyName();
-		String brand = newToy.promptBrandName();
+		String brand = menu.promptBrandName();
 		String price = validatePrice();
-		String inventory = newToy.promptInventory();
-		String ageRating = newToy.promptAgeRating();
+		String inventory = menu.promptInventory();
+		String ageRating = menu.promptAgeRating();
 		
 		
 		
@@ -71,16 +109,21 @@ public class AddNewToy {
 		
 		ArrayList<String> data = newToyData();
 		if (sn.charAt(0) == '0' || sn.charAt(0) == '1') {
-			char classification = newToy.promptClassifaction();
+			char classification = menu.promptClassifaction();
 			data.add(Character.toString(classification));
 		} else if (sn.charAt(0) == '2' || sn.charAt(0) == '3') {
-			String material = newToy.promptMaterial();
-			char size = newToy.promptSize();
+			String material = menu.promptMaterial();
+			char size = menu.promptSize();
 			data.add(material);
 			data.add(Character.toString(size));
 		} else if (sn.charAt(0) == '4' || sn.charAt(0) == '5' || sn.charAt(0) == '6') {
-			char puzzleType = newToy.promptPuzzleType();
+			char puzzleType = menu.promptPuzzleType();
 			data.add(Character.toString(puzzleType));
+		} else {
+			String numOfPlayers = formatPlayers();
+			String designers = menu.promptDesigners();
+			data.add(numOfPlayers);
+			data.add(designers);
 		}
 		
 		return data;

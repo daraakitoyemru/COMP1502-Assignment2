@@ -15,7 +15,7 @@ public class AddNewToyMenu {
 	}
 	
 	public void showAddedToyMsg() {
-		System.out.println("New Toy Added!\n");
+		System.out.println("\nNew Toy Added!\n");
 	}
 	
 	/**
@@ -58,8 +58,8 @@ public class AddNewToyMenu {
 		boolean flag = true;
 		
 		while(flag) {
-			if (!inventory.matches("[0-9]+")) {
-				System.out.println("\nInventory must contain only non-negative digits. Please try again.");
+			if (!inventory.matches("[1-9]+")) {
+				System.out.println("\nInventory must contain only non-negative non-zero digits. Please try again.");
 				System.out.print("\nEnter the amount of inventory for this toy: ");
 				inventory = input.nextLine();
 			}else {
@@ -199,13 +199,50 @@ public class AddNewToyMenu {
 		return puzzleType;
 	}
 	
-	public char promptMinNumofPlayers() {
+	public String promptMinNumofPlayers() {
+		System.out.print("\nEnter a MINimum number of players: ");
+		String players = input.nextLine();
+		
+		boolean flag = true;
+		
+		while(flag) {
+			if(!players.matches("[1-9]+")) {
+				System.out.print("\nInventory must contain only non-negative non-zero digits. Please try again.");
+				System.out.print("\nEnter a MINimum number of players: ");
+				players = input.nextLine();
+			} else {
+				flag = false;
+			}
+		}
+		return players;
 	
 	}
 	
-	public char promptMaxNumofPlayers();
+	public String promptMaxNumofPlayers() {
+		System.out.print("\nEnter a MAXimum number of players: ");
+		String players = input.nextLine();
+		
+		boolean flag = true;
+		
+		while(flag) {
+			if(!players.matches("[1-9]+")) {
+				System.out.print("\nInventory must contain only non-negative non-zero digits. Please try again.");
+				System.out.print("\nEnter a MAXimum number of players: ");
+				players = input.nextLine();
+			} else {
+				flag = false;
+			}
+		}
+		return players;
+	}
 	
-	public String promptDesigners();
+	public String promptDesigners() {
+		System.out.print("\nEnter a designer (please seperate using commas if there is more than one designer: ");
+		String designers = input.nextLine();
+		//add validation (maybe?)
+		
+		return designers;
+	}
 	
 	
 
