@@ -1,6 +1,6 @@
-module:Assignment2
 mru.toystore.application
 mru.toystore.controller
 mru.toystore.exceptions
 mru.toystore.model
+mru.toystore.test
 mru.toystore.view

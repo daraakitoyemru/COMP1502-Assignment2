@@ -215,7 +215,7 @@
 4585852723;Tsumego;Game Sky;292.41;7;8;M
 9514194360;King Oil;Game Loop;9.65;12;7;2-4;Haniya Woodley
 5279323659;Einstein's Puzzle;Game Demon;182.61;3;6;T
-4134304987;Pentomino;Game Reboot;59.30;9;8;L
+4134304987;Pentomino;Game Reboot;59.30;8;8;L
 8085889603;1313 Dead End Drive;Game Zombie;43.54;10;10;1-5;Marshall Swanson,Mylie Campbell
 3737738613;Deer;Game Pixel;182.28;5;8;Fabric;L
 7596463022;Strange Synergy;Gamefluent;80.41;6;7;1-7;Milla Baxter,Harpreet Reilly
