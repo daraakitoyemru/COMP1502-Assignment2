@@ -2,6 +2,7 @@ package mru.toystore.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +24,7 @@ public class StoreManager {
 	private AddNewToy newToy;
 	private AddNewToyMenu newToyMenu;
 	public ArrayList<Toy> toys;
-	private FindToyInstance findToy;
+	
 	private final String FILE_PATH  = "res/toys.txt";
 	
 	public StoreManager() {
@@ -31,7 +32,7 @@ public class StoreManager {
 		newToy = new AddNewToy();
 		newToyMenu = new AddNewToyMenu();
 		toys = new ArrayList<>();
-		findToy = new FindToyInstance();
+		
 		
 		menu.showWelcomeBanner();
 		loadData();
@@ -64,12 +65,13 @@ public class StoreManager {
 					removeToy();
 					break;
 				case "4":
-					System.out.println("savinggg...");
+					System.out.println("\nSaving...");
+					Save();
 					menu.showThankYou();
 					flag = false;
 					break;
 				default:
-					//menu.validateMenuOption(option);
+					
 					menu.showErrMsg();
 					
 					continue;
@@ -77,7 +79,25 @@ public class StoreManager {
 		}
 	}
 
-	
+	/**
+	 * Saves edited toys to txt file
+	 * */
+	private void Save() {
+		File db = new File(FILE_PATH);
+		try {
+			PrintWriter pw = new PrintWriter(db);
+			for (Toy toy: toys) {
+				pw.println(toy.format());
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
 	//add doc
 	private void removeToy() {
 		boolean flag = true;
@@ -105,8 +125,7 @@ public class StoreManager {
 	}
 
 	
-	//add doc
-	private void remove(Toy toy) {
+		private void remove(Toy toy) {
 		char option = menu.promptRemove();
 		
 		if (option == 'y') {
@@ -407,7 +426,9 @@ public class StoreManager {
 	}
 	
 	
-	
+	/**
+	 * Reads data from txt file and creates specific toy objects based off serial number
+	 * */
 	private void loadData() {
 		File db = new File(FILE_PATH);
 		String currentLine;

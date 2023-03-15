@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 import mru.toystore.exceptions.NegativeValueException;
 
+/**
+ * Displays prompts related to Adding a new toy
+ * */
 public class AddNewToyMenu {
 
 	private Scanner input;
@@ -114,7 +117,7 @@ public class AddNewToyMenu {
 				System.out.print("\nEnter option here: ");
 				classification = input.nextLine().toUpperCase().charAt(0);	
 			}
-			else {
+			else { 
 				flag = false;
 			}
 		}
@@ -122,6 +125,10 @@ public class AddNewToyMenu {
 		return classification;
 	}
 	
+	/**
+	 * Asks user what material they want for their animal
+	 * @return the user's input 
+	 * */
 	public String promptMaterial() {
 		System.out.print("\nEnter the kind of material you want: ");
 		String material = input.nextLine().trim();
@@ -140,6 +147,10 @@ public class AddNewToyMenu {
 		return material;
 	}
 	
+	/**
+	 * Asks the user what a size they would they like for their animal
+	 * @return the user's input as a char
+	 * */
 	public char promptSize() {
 		System.out.println("\nSelect a size:\n");
 		System.out.println("\t(S) Small");
@@ -151,6 +162,8 @@ public class AddNewToyMenu {
 		boolean flag = true;
 		
 		while(flag) {
+			//Continue to prop user to select a size if they enter something outside
+			//the list of sizes
 			if(size != 'S' && size != 'M'&& size != 'L') {
 				storeMenu.showErrMsg();
 				System.out.println("\nSelect a size:\n");
@@ -167,7 +180,10 @@ public class AddNewToyMenu {
 		}
 		return size;
 	}
-	
+	/**
+	 * Asks the user what a type they would they like for their puzzle
+	 * @return the user's input as a char
+	 * */
 	public char promptPuzzleType() {
 		System.out.print("\nSelect a puzzle-type:\n");
 		System.out.println("\t(M) Mechanical");
@@ -181,6 +197,8 @@ public class AddNewToyMenu {
 		boolean flag = true;
 		
 		while(flag) {
+			//Continue to prop user to select a type if they enter something outside
+			//the list of puzzle types
 			if(puzzleType != 'M' && puzzleType != 'C' && puzzleType != 'L' && puzzleType != 'T' && puzzleType != 'R') {
 				storeMenu.showErrMsg();
 				System.out.print("\nSelect a puzzle-type:\n");
@@ -198,7 +216,10 @@ public class AddNewToyMenu {
 		
 		return puzzleType;
 	}
-	
+	/**
+	 * Asks the user for the minimum number of players for a board game
+	 * @return user's input as a String
+	 * */
 	public String promptMinNumofPlayers() {
 		System.out.print("\nEnter a MINimum number of players: ");
 		String players = input.nextLine();
@@ -206,6 +227,7 @@ public class AddNewToyMenu {
 		boolean flag = true;
 		
 		while(flag) {
+			//Checks input to make sure only numbers greater than 0 are entered
 			if(!players.matches("[1-9]+")) {
 				System.out.print("\nInventory must contain only non-negative non-zero digits. Please try again.");
 				System.out.print("\nEnter a MINimum number of players: ");
@@ -217,7 +239,10 @@ public class AddNewToyMenu {
 		return players;
 	
 	}
-	
+	/**
+	 * Asks the user for the maximum number of players for a board game
+	 * @return user's input as a String
+	 * */
 	public String promptMaxNumofPlayers() {
 		System.out.print("\nEnter a MAXimum number of players: ");
 		String players = input.nextLine();
@@ -225,6 +250,7 @@ public class AddNewToyMenu {
 		boolean flag = true;
 		
 		while(flag) {
+			//Checks input to make sure only numbers greater than 0 are entered
 			if(!players.matches("[1-9]+")) {
 				System.out.print("\nInventory must contain only non-negative non-zero digits. Please try again.");
 				System.out.print("\nEnter a MAXimum number of players: ");
@@ -235,11 +261,14 @@ public class AddNewToyMenu {
 		}
 		return players;
 	}
-	
+	/**
+	 * Asks users to enter designers for board game
+	 * @return users input as a String
+	 * */
 	public String promptDesigners() {
 		System.out.print("\nEnter a designer (please seperate using commas if there is more than one designer: ");
 		String designers = input.nextLine();
-		//add validation (maybe?)
+		
 		
 		return designers;
 	}

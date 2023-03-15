@@ -25,4 +25,7 @@ public class Puzzle extends Toy{
 		return "Category: " + this.getCategory() + super.toString() + " Puzzle-type: " + puzzleType;
 	}
 
+	public String format() {
+		return super.format()+";"+ this.getPuzzleType();
+	}
 }

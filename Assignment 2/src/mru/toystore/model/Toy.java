@@ -79,5 +79,8 @@ public abstract class Toy {
 		this.category = category;
 	}
 	
+	public String format() {
+		return this.getSerialNumber()+";"+this.getName()+";"+this.getBrand()+";"+this.getPrice()+";"+this.getAvailibility()+";"+this.getAgeRating();
+	}
 
 }

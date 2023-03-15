@@ -3,10 +3,9 @@ package mru.toystore.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import mru.toystore.exceptions.GreaterMinPlayerException;
+
 import mru.toystore.exceptions.InvalidFormatException;
 import mru.toystore.exceptions.SmallerMaximumNumofPlayerException;
-import mru.toystore.model.Toy;
 import mru.toystore.view.AddNewToyMenu;
 import mru.toystore.view.StoreMenu;
 
@@ -20,13 +19,17 @@ public class AddNewToy {
 	public AddNewToy() {
 		
 		storeMenu = new StoreMenu();
-		menu = new AddNewToyMenu();
+	 	menu = new AddNewToyMenu();
 		input = new Scanner(System.in);
 	
 		
 	}
 	
-	
+	/**
+	 * Asks users to enter a serial number and checks if the format is correct
+	 * @return valid serial number
+	 * @throws InvalidFormatException
+	 * */
 	public String validateSn() throws InvalidFormatException {
 		String sn = storeMenu.promptSerialNum();
 		
@@ -38,7 +41,11 @@ public class AddNewToy {
 			return sn;
 		}
 	}
-	
+	/**
+	 * Asks user to enter the min/max number of players for a board game. 
+	 * @return min and max num of player in a list
+	 * @throws SmallerMaximumNumofPlayerException when max player is less than minimum players
+	 * */
 	public ArrayList<String> validateNumOfPlayers() throws SmallerMaximumNumofPlayerException{
 		ArrayList<String> data = new ArrayList<>();
 		String minPlayers = menu.promptMinNumofPlayers();
@@ -54,6 +61,10 @@ public class AddNewToy {
 		return data;
 	}
 	
+	/**
+	 * Formats the number of player into a String
+	 * @return formatted players
+	 * */
 	public String formatPlayers() {
 		ArrayList<String> data = null;
 		boolean flag = true;
@@ -73,7 +84,7 @@ public class AddNewToy {
 				
 	}
 	
-	//need to change this method
+	
 	public String validatePrice() {
 		String price = menu.promptPrice();
 		
@@ -85,7 +96,10 @@ public class AddNewToy {
 
 	
 	
-	
+	/**
+	 * Adds all of the data shared across all toys into a list
+	 * @return list of strings containing valid toy data
+	 * */
 	public ArrayList<String> newToyData(){
 		ArrayList<String> data = new ArrayList<>();
 		String name = storeMenu.promptToyName();
@@ -104,7 +118,10 @@ public class AddNewToy {
 		
 		return data;
 	}
-	
+	/**
+	 * Displays a different set of prompts depending on the users serial number
+	 * @return a list of data containing user input
+	 * */
 	public ArrayList<String> toyData(String sn){
 		
 		ArrayList<String> data = newToyData();
@@ -122,7 +139,7 @@ public class AddNewToy {
 		} else {
 			String numOfPlayers = formatPlayers();
 			String designers = menu.promptDesigners();
-			data.add(numOfPlayers);
+	 		data.add(numOfPlayers);
 			data.add(designers);
 		}
 		

@@ -35,4 +35,7 @@ public class Animal extends Toy {
 		return "Category: "+ this.getCategory() + super.toString() + ", Materials: " + material + ", Size: " + size;
 	}
 	
+	public String format() {
+		return super.format()+";"+ this.getMaterial()+ ";" + this.getSize();
+	}
 }

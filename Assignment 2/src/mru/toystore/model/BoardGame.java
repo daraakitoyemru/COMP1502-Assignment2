@@ -39,4 +39,8 @@ public class BoardGame extends Toy {
 	public String toString() {
 		return "Category: "+ this.getCategory() + super.toString() + ", Number of players: " + this.getNumOfPlayers() + ", Designers: " + this.getDesigners();
 	}
+	
+	public String format() {
+		return super.format()+";"+ this.getNumOfPlayers() + ";" + this.getDesigners();
+		}
 }

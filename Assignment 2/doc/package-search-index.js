@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"m":"Assignment2","l":"mru.toystore.application"},{"m":"Assignment2","l":"mru.toystore.controller"},{"m":"Assignment2","l":"mru.toystore.exceptions"},{"m":"Assignment2","l":"mru.toystore.model"},{"m":"Assignment2","l":"mru.toystore.view"}]

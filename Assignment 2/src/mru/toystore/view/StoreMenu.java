@@ -73,7 +73,7 @@ public class StoreMenu {
 	
 	/**
 	 * Prompts user for toy serial number
-	 * @return returns users input as integer number
+	 * @return returns users input as String
 	 * */
 	public String promptSerialNum() {
 		//add exception handling
@@ -84,13 +84,11 @@ public class StoreMenu {
 		return serialNum;
 	}
 	
-	public String promptPrice() {
-		System.out.print("\nEnter desired price: ");
-		String price = input.nextLine();
-		return price;
-	}
 	
-	//add javadoc
+	/**
+	 * Prompts user for toy name
+	 * @return returns users input as String
+	 * */
 	public String promptToyName() {
 		System.out.print("\nEnter toy name: ");
 		String toyName = input.nextLine().trim();
@@ -99,7 +97,10 @@ public class StoreMenu {
 
 	}
 	
-	//add javadoc
+	/**
+	 * Prompts user for toy type
+	 * @return returns users input as String
+	 */
 	public String promptCategoryName() {
 		System.out.print("\nEnter toy type: ");
 		String toyType = input.nextLine();
@@ -126,7 +127,11 @@ public class StoreMenu {
 		return option;
 	}
 	
-	//add javadoc
+	/**
+	 * Asks the user if theyre sure they want to purchase.
+	 * If the input is not y or n the prompt will continue
+	 * @return user input
+	 * */
 	public char promptAreYouSure() {
 		System.out.print("\nAre you sure you want to purchase? (Y/N) ");
 		char option = input.nextLine().toLowerCase().charAt(0);
@@ -163,7 +168,6 @@ public class StoreMenu {
 		return option;
 	}
 	
-	//add javadoc
 	public void promptContinue() {
 		System.out.print("\nPress Enter to continue: ");
 		String keyboard = input.nextLine();

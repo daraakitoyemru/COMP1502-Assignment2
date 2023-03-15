@@ -34,5 +34,7 @@ public class Figure extends Toy {
 		return "Category: " + this.getCategory() + super.toString() + ", Classification: " + classification;
 	}
 	
-
+	public String format() {
+		return super.format()+";"+ this.getClassification();
+	}
 }
